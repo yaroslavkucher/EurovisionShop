@@ -1,4 +1,4 @@
-﻿namespace EurovisionShop.Models
+﻿namespace EurovisionShop.Api.Models
 {
     public enum OrderStatus
     {

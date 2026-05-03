@@ -1,7 +1,7 @@
-﻿using EurovisionShop.Models;
+﻿using EurovisionShop.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EurovisionShop.Data
+namespace EurovisionShop.Api.Data
 {
     public class ApplicationDbContext : DbContext
     {

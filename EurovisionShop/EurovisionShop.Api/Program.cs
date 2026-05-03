@@ -1,4 +1,4 @@
-using EurovisionShop.Data;
+using EurovisionShop.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

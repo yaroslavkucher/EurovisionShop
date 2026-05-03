@@ -1,9 +1,9 @@
-﻿using EurovisionShop.Data;
-using EurovisionShop.Models;
+﻿using EurovisionShop.Api.Data;
+using EurovisionShop.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace EurovisionShop.Controllers;
+namespace EurovisionShop.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

@@ -1,9 +1,10 @@
-﻿using EurovisionShop.Data;
-using EurovisionShop.Models;
+﻿using EurovisionShop.Api.Data;
+using EurovisionShop.Api.DTOs;
+using EurovisionShop.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace EurovisionShop.Controllers;
+namespace EurovisionShop.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -57,9 +58,16 @@ public class ProductsController : ControllerBase
 
     // POST: api/Products
     [HttpPost]
-    public async Task<ActionResult<Product>> CreateProduct(Product product)
+    public async Task<ActionResult<Product>> CreateProduct(CreateProductDto dto)
     {
-        product.CreatedAt = DateTime.UtcNow;
+        var product = new Product
+        {
+            Name = dto.Name,
+            Description = dto.Description,
+            Price = dto.Price,
+            Category = dto.Category,
+            CreatedAt = DateTime.UtcNow
+        };
 
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
@@ -69,14 +77,14 @@ public class ProductsController : ControllerBase
 
     // PUT: api/Products/5
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProduct(int id, Product product)
+    public async Task<IActionResult> UpdateProduct(int id, EditProductDto dto)
     {
-        if (id != product.Id)
+        if (id != dto.Id)
         {
             return BadRequest(new { message = "ID в URL не співпадає з ID товару" });
         }
 
-        _context.Entry(product).State = EntityState.Modified;
+        _context.Entry(dto).State = EntityState.Modified;
 
         try
         {

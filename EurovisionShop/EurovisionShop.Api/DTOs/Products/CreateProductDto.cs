@@ -1,15 +1,10 @@
-﻿namespace EurovisionShop.Api.Models
+﻿namespace EurovisionShop.Api.DTOs
 {
-    public class Product
+    public class CreateProductDto
     {
-        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public string Category { get; set; } = string.Empty;
-
-        public int PopularityScore { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
