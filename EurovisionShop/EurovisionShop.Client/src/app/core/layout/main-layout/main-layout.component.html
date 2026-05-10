@@ -1,0 +1,29 @@
+<header class="header">
+  <div class="container header-content">
+    <div class="logo">
+      EurovisionShop
+    </div>
+
+    <nav class="nav">
+      <a routerLink="/">Каталог</a>
+      <a routerLink="/cart" class="nav-link cart-link">
+
+        <span>Кошик</span>
+
+        @if (cartService.totalCount() > 0) {
+        <span class="cart-badge">
+          {{ cartService.totalCount() }}
+        </span>
+        }
+
+      </a>
+      <a routerLink="/profile">Профіль</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
+</main>

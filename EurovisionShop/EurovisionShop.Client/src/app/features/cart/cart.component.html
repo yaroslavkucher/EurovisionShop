@@ -1,0 +1,111 @@
+<div class="cart-page">
+
+  <div class="cart-header">
+    <h1>Кошик</h1>
+
+    @if (!isEmpty()) {
+    <button class="clear-btn" (click)="clear()">
+      Очистити кошик
+    </button>
+    }
+  </div>
+
+  @if (isEmpty()) {
+
+  <div class="empty-cart">
+    <h2>Ваш кошик порожній</h2>
+    <p>Додайте товари з каталогу ✨</p>
+
+    <a routerLink="" class="catalog-btn">
+      Перейти до каталогу
+    </a>
+  </div>
+
+  } @else {
+
+  <div class="cart-layout">
+
+    <div class="cart-items">
+
+      @for (item of items(); track item.product.id) {
+
+      <div class="cart-item">
+
+        <div class="image-placeholder"></div>
+
+        <div class="item-info">
+
+          <h3>{{ item.product.name }}</h3>
+
+          <p>
+            {{ item.product.description }}
+          </p>
+
+          <span class="category">
+            {{ item.product.category }}
+          </span>
+
+        </div>
+
+        <div class="item-controls">
+
+          <div class="quantity-controls">
+            <button class="quantity-button"
+                    (click)="decreaseQuantity(item.product.id)"
+                    [disabled]="item.quantity === 1">
+              -
+            </button>
+
+            <span class="quantity-value">
+              {{ item.quantity }}
+            </span>
+
+            <button class="quantity-button"
+                    (click)="increaseQuantity(item.product.id)">
+              +
+            </button>
+          </div>
+
+          <div class="item-price">
+            {{
+                  item.product.price * item.quantity
+                  | number:'1.2-2'
+            }} ₴
+          </div>
+
+          <button class="remove-btn"
+                  (click)="removeItem(item.product.id)">
+            Видалити
+          </button>
+
+        </div>
+
+      </div>
+
+      }
+
+    </div>
+
+    <aside class="summary-card">
+
+      <h2>Підсумок</h2>
+
+      <div class="summary-row">
+        <span>Сума:</span>
+
+        <strong>
+          {{ totalPrice() | number:'1.2-2' }} ₴
+        </strong>
+      </div>
+
+      <button class="checkout-btn">
+        Оформити замовлення
+      </button>
+
+    </aside>
+
+  </div>
+
+  }
+
+</div>

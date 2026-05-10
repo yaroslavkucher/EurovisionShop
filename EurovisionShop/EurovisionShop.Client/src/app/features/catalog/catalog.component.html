@@ -29,12 +29,33 @@
         <span class="category-badge">{{ product.category }}</span>
       </div>
       <div class="product-info">
-        <h3>{{ product.name }}</h3>
-        <p class="description">{{ product.description }}</p>
+        <div class="product-content">
+          <h3>{{ product.name }}</h3>
+          <p class="description">{{ product.description }}</p>
+        </div>
+
         <div class="card-footer">
           <span class="price">{{ product.price | number:'1.2-2' }} ₴</span>
-          <button class="add-btn" [disabled]="product.stockQuantity === 0">
-            {{ product.stockQuantity > 0 ? 'У кошик' : 'Немає' }}
+
+          <button class="add-btn"
+                  [class.in-cart]="isInCart(product.id)"
+                  [disabled]="product.stockQuantity === 0"
+                  (click)="handleCartClick(product)">
+
+            @if (product.stockQuantity === 0) {
+
+            Немає
+
+            } @else if (isInCart(product.id)) {
+
+            В кошику
+
+            } @else {
+
+            У кошик
+
+            }
+
           </button>
         </div>
       </div>
