@@ -1,6 +1,6 @@
 ﻿using EurovisionShop.Api.Models;
 
-namespace EurovisionShop.Api.DTOs.Orders
+namespace EurovisionShop.Api.DTOs
 {
     public class EditOrderDto
     {

@@ -19,7 +19,7 @@ public class ProductsController : ControllerBase
 
     // GET: api/Products
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts(
         [FromQuery] string? category,
         [FromQuery] string? sortBy)
     {
@@ -39,64 +39,99 @@ public class ProductsController : ControllerBase
             _ => query.OrderBy(p => p.Id)
         };
 
-        return await query.ToListAsync();
+        // Перетворюємо сутності бази даних на DTO перед відправкою
+        var products = await query.Select(p => new ProductDto
+        {
+            Id = p.Id,
+            Name = p.Name,
+            Description = p.Description,
+            Price = p.Price,
+            Category = p.Category,
+            StockQuantity = p.StockQuantity
+        }).ToListAsync();
+
+        return Ok(products);
     }
 
     // GET: api/Products/5
     [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> GetProduct(int id)
+    public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
         var product = await _context.Products.FindAsync(id);
 
         if (product == null)
         {
-            return NotFound(new { message = "Товар не знайдено" });
+            return NotFound(new { message = $"Товар з ID {id} не знайдено." });
         }
 
-        return product;
+        var productDto = new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price,
+            Category = product.Category,
+            StockQuantity = product.StockQuantity
+        };
+
+        return Ok(productDto);
     }
 
     // POST: api/Products
     [HttpPost]
-    public async Task<ActionResult<Product>> CreateProduct(CreateProductDto dto)
+    public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto dto)
     {
+
         var product = new Product
         {
             Name = dto.Name,
             Description = dto.Description,
             Price = dto.Price,
             Category = dto.Category,
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
+            StockQuantity = dto.StockQuantity
         };
 
         _context.Products.Add(product);
         await _context.SaveChangesAsync();
 
-        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product);
+        var createdDto = new ProductDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price,
+            Category = product.Category,
+            StockQuantity = product.StockQuantity
+        };
+
+        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, createdDto);
     }
 
     // PUT: api/Products/5
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(int id, EditProductDto dto)
     {
-        if (id != dto.Id)
+        var product = await _context.Products.FindAsync(id);
+        if (product == null)
         {
-            return BadRequest(new { message = "ID в URL не співпадає з ID товару" });
+            return NotFound(new { message = $"Товар з ID {id} не знайдено для оновлення." });
         }
 
-        _context.Entry(dto).State = EntityState.Modified;
+        product.Name = dto.Name;
+        product.Description = dto.Description;
+        product.Price = dto.Price;
+        product.Category = dto.Category;
+        product.StockQuantity = dto.StockQuantity;
+
 
         try
         {
             await _context.SaveChangesAsync();
         }
-        catch (DbUpdateConcurrencyException)
+        catch (DbUpdateException ex)
         {
-            if (!_context.Products.Any(e => e.Id == id))
-            {
-                return NotFound();
-            }
-            throw;
+            return StatusCode(500, new { message = "Сталася помилка під час збереження змін.", details = ex.Message });
         }
 
         return NoContent();
@@ -109,7 +144,7 @@ public class ProductsController : ControllerBase
         var product = await _context.Products.FindAsync(id);
         if (product == null)
         {
-            return NotFound();
+            return NotFound(new { message = $"Товар з ID {id} не знайдено." });
         }
 
         _context.Products.Remove(product);

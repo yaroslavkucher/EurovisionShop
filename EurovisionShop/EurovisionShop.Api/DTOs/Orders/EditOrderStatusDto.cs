@@ -1,10 +1,11 @@
 ﻿using EurovisionShop.Api.Models;
+using System.ComponentModel.DataAnnotations;
 
-namespace EurovisionShop.Api.DTOs.Orders
+namespace EurovisionShop.Api.DTOs
 {
     public class EditOrderStatusDto
     {
-        public int Id { get; set; }
+        [Required]
         public OrderStatus Status { get; set; }
     }
 }
