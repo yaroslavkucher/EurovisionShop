@@ -1,0 +1,123 @@
+.catalog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+}
+
+.catalog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.purple-text {
+  color: #6a1b9a;
+  font-weight: 800;
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+}
+
+.custom-select {
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background: white;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+  .custom-select:focus {
+    border-color: #6a1b9a;
+  }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+  .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(106, 27, 154, 0.15);
+  }
+
+.product-image-placeholder {
+  height: 200px;
+  background: #f3e5f5;
+  position: relative;
+}
+
+.category-badge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #6a1b9a;
+  font-weight: 600;
+}
+
+.product-info {
+  padding: 20px;
+}
+
+  .product-info h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #333;
+  }
+
+.description {
+  color: #757575;
+  font-size: 14px;
+  height: 40px;
+  overflow: hidden;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #6a1b9a;
+}
+
+.add-btn {
+  background: #6a1b9a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+  .add-btn:hover:not(:disabled) {
+    background: #4a148c;
+  }
+
+  .add-btn:disabled {
+    background: #bdbdbd;
+    cursor: not-allowed;
+  }

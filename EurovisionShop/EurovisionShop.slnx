@@ -3,4 +3,8 @@
     <Build />
   </Project>
   <Project Path="EurovisionShop.Api/EurovisionShop.Api.csproj" />
+  <Project Path="EurovisionShop.Client/EurovisionShop.Client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
 </Solution>

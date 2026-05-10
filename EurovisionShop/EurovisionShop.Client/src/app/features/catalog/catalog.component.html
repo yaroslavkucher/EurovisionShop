@@ -1,0 +1,47 @@
+<div class="catalog-container">
+  <header class="catalog-header">
+    <h1>Офіційний мерч <span class="purple-text">Eurovision</span></h1>
+
+    <div class="filters">
+      <select [(ngModel)]="selectedCategory" (change)="onFilterChange()" class="custom-select">
+        <option value="">Всі категорії</option>
+        <option value="Одяг">Одяг</option>
+        <option value="Музика">Музика</option>
+        <option value="Аксесуари">Аксесуари</option>
+      </select>
+
+      <select [(ngModel)]="sortBy" (change)="onFilterChange()" class="custom-select">
+        <option value="newest">Новинки</option>
+        <option value="popularity">Популярні</option>
+        <option value="price_asc">Дешевші</option>
+        <option value="price_desc">Дорожчі</option>
+      </select>
+    </div>
+  </header>
+
+  @if (isLoading()) {
+  <div class="loader">Завантаження музичної магії...</div>
+  } @else {
+  <div class="product-grid">
+    @for (product of products(); track product.id) {
+    <div class="product-card">
+      <div class="product-image-placeholder">
+        <span class="category-badge">{{ product.category }}</span>
+      </div>
+      <div class="product-info">
+        <h3>{{ product.name }}</h3>
+        <p class="description">{{ product.description }}</p>
+        <div class="card-footer">
+          <span class="price">{{ product.price | number:'1.2-2' }} ₴</span>
+          <button class="add-btn" [disabled]="product.stockQuantity === 0">
+            {{ product.stockQuantity > 0 ? 'У кошик' : 'Немає' }}
+          </button>
+        </div>
+      </div>
+    </div>
+    } @empty {
+    <div class="empty-state">Товарів не знайдено. Спробуйте інший фільтр!</div>
+    }
+  </div>
+  }
+</div>
